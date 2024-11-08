@@ -14,10 +14,10 @@ class SplashScreen extends StatelessWidget {
       if (!context.mounted) return;
       if (shardPrefs != true) {
         // ignore: use_build_context_synchronously
-        context.go('/register');
+        context.goNamed('register');
       } else {
         // ignore: use_build_context_synchronously
-        context.go('/bottomNav');
+        context.goNamed('bottomNav');
       }
     });
     return Scaffold(

@@ -180,9 +180,24 @@ class RegisterScreen extends StatelessWidget {
                             child: authButton("Register"));
                       },
                     ),
-                    kHeight20
+                    kHeight20,
                   ],
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                 const  Text('Already Registerd?'),
+                  
+                  TextButton(
+                    onPressed: () {
+                     context.pushNamed('login');  
+                    },
+                    child:const  Text('Login',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: kOrange)),
+                  )
+                ],
               )
             ],
           ),
