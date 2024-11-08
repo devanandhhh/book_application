@@ -1,7 +1,8 @@
 import 'package:books_app/data/shared_preference/shared_preference.dart';
-import 'package:books_app/presentation/widgets/icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/others.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

@@ -1,3 +1,5 @@
+// AUTHOR MODEL ----
+
 class AuthorModel {
   final String id;
   final String name;
@@ -20,14 +22,4 @@ class AuthorModel {
       biography: json['biography'] as String,
     );
   }
-
-  // // Method to convert an instance to JSON
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'name': name,
-  //     'birthdate': birthdate.toIso8601String(),
-  //     'biography': biography,
-  //   };
-  // }
 }

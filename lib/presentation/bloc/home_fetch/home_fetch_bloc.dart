@@ -7,15 +7,13 @@ import 'package:books_app/data/models/book_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../../core/deboncer.dart';
-
 part 'home_fetch_event.dart';
 part 'home_fetch_state.dart';
 
 class HomeFetchBloc extends Bloc<HomeFetchEvent, HomeFetchState> {
   List<BookModel> allBooks = [];
   List<String> allAuthors = [];
-  final Debouncer debouncer = Debouncer(milliseconds: 300);
+
   HomeFetchBloc() : super(HomeFetchInitial()) {
     on<BooksFetchEvent>(onBookFetchEvent);
     on<SearchBookEvent>(onSearchBookFecth);
@@ -61,14 +59,15 @@ class HomeFetchBloc extends Bloc<HomeFetchEvent, HomeFetchState> {
       //     bookList: filteredBooks, authorName: filteredAuthor));
       //      print("Emit filtered books. Count: ${filteredBooks.length}"); // Debugging line
       //
-     if (filteredBooks.isEmpty) {
-      // No matching books found, emit No Results State
-      emit(HomeFetchNoResultsState());
-      log("No matching books found");
-    } else {
-      emit(HomeFetchLoadedState(bookList: filteredBooks, authorName: filteredAuthor));
-      print("Emit filtered books. Count: ${filteredBooks.length}");
-    }
+      if (filteredBooks.isEmpty) {
+        // No matching books found, emit No Results State
+        emit(HomeFetchNoResultsState());
+        log("No matching books found");
+      } else {
+        emit(HomeFetchLoadedState(
+            bookList: filteredBooks, authorName: filteredAuthor));
+        print("Emit filtered books. Count: ${filteredBooks.length}");
+      }
     }
   }
 }

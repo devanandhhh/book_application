@@ -1,3 +1,4 @@
+// BOOK MODEL ---
 class BookModel {
   final String id;
   final String title;
@@ -21,7 +22,7 @@ class BookModel {
     required this.starCount,
   });
 
-  // Convert JSON data to Book object
+  // Convert JSON data to BookModel object
   factory BookModel.fromJson(Map<String, dynamic> json) {
     return BookModel(
       id: json['id']??'',
@@ -31,23 +32,10 @@ class BookModel {
       authorId: json['authorId']??"",
       coverPictureURL: json['coverPictureURL']??"",
       price: json['price']??0,
-      ratings: json['ratings'] ?? [], // Default to empty list if null
-      starCount: json['starCount'] ?? 0, // Default to 0 if null
+      ratings: json['ratings'] ?? [], 
+      starCount: json['starCount'] ?? 0, 
     );
   }
 
-  // Convert Book object to JSON
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'title': title,
-  //     'description': description,
-  //     'publishedDate': publishedDate.toIso8601String(),
-  //     'authorId': authorId,
-  //     'coverPictureURL': coverPictureURL,
-  //     'price': price,
-  //     'ratings': ratings,
-  //     'starCount': starCount,
-  //   };
-  // }
+
 }

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class BottomNavigationScreen extends StatelessWidget {
   BottomNavigationScreen({super.key});
 
-  final List<Widget> pages = [HomeScreen(), AuthorsScreen()];
+  final List<Widget> pages = [const HomeScreen(), const AuthorsScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class BottomNavigationScreen extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: selectedIndex,
         builder: (context, index, _) => pages[index],
-      ),bottomNavigationBar: BottomNavigationWidget(),
+      ),bottomNavigationBar: const BottomNavigationWidget(),
     );
   }
 }

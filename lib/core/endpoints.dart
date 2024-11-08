@@ -3,5 +3,5 @@ class Endpoints {
   static String register = "api/auth/register";
   static String login = "api/auth/login";
   static String fetchBooks = "api/books";
-  static String authorPath = "api/authors"; 
+  static String authorPath = "api/authors";
 }

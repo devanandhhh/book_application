@@ -1,9 +1,9 @@
 import 'package:books_app/core/colors.dart';
 import 'package:books_app/presentation/bloc/user_login/user_login_bloc.dart';
-import 'package:books_app/presentation/bloc/password_visibility/password_visibility_cubit.dart';
-import 'package:books_app/presentation/screens/auth_screen/register_screen.dart';
-import 'package:books_app/presentation/screens/auth_screen/widgets/validation_service.dart';
-import 'package:books_app/presentation/widgets/icon_widget.dart';
+import 'package:books_app/presentation/screens/auth_screen/service/validation_service.dart';
+import 'package:books_app/presentation/screens/auth_screen/widgets/auth_button_widget.dart';
+import 'package:books_app/presentation/screens/auth_screen/widgets/custom_textfield.dart';
+import 'package:books_app/presentation/screens/auth_screen/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,16 +19,11 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 108, bottom: 113),
@@ -37,75 +32,21 @@ class LoginScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //user name
-                    Text(
-                      'User Name',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: kGrey600),
-                    ),
-                    kHeight10,
-                    TextFormField(
+                    CustomTextField(
+                      label: 'User name',
+                      hintText: 'Enter your name',
                       controller: nameController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        hintText: 'Enter your name',
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: kOrange, width: 2.0),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
                       validator: (value) =>
                           ValidationService().validateName(nameController.text),
                     ),
                     kHeight20,
-                    //password
-                    Text(
-                      'Password',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: kGrey600),
+                    PasswordField(
+                      controller: passwordController,
+                      label: 'Password',
+                      hintText: 'Enter your password',
+                      validator: (value) => ValidationService()
+                          .validatePassword(passwordController.text),
                     ),
-                    kHeight10,
-                    BlocBuilder<PasswordVisibilityCubit,
-                        PasswordVisibilityState>(
-                      builder: (context, state) {
-                        if (state is PasswordVisibilityInitial) {
-                          return TextFormField(
-                            controller: passwordController,
-                            obscureText: state.isVisible,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              hintText: 'Enter your password',
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: kOrange, width: 2.0),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  state.isVisible
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: kGrey600,
-                                ),
-                                onPressed: () {
-                                  context
-                                      .read<PasswordVisibilityCubit>()
-                                      .toggleVisibility();
-                                },
-                              ),
-                            ),
-                            validator: (value) => ValidationService()
-                                .validatePassword(passwordController.text),
-                          );
-                        } else {
-                          return kHeight10;
-                        }
-                      },
-                    ),
-
                     kHeight20,
                     kHeight20,
                     BlocConsumer<UserLoginBloc, UserLoginState>(
@@ -127,16 +68,20 @@ class LoginScreen extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        return InkWell(
-                            onTap: () async {
-                              if (formKey.currentState!.validate()) {
-                                context.read<UserLoginBloc>().add(
+
+                        return AuthButtonWidget(
+                          text: 'Login',
+                          onTap: () {
+                            if (formKey.currentState!.validate()) {
+                              context.read<UserLoginBloc>().add(
                                     UserLoginButtonClickEvent(
-                                        name: nameController.text,
-                                        password: passwordController.text));
-                              }
-                            },
-                            child: authButton("LogIn"));
+                                      name: nameController.text,
+                                      password: passwordController.text,
+                                    ),
+                                  );
+                            }
+                          },
+                        );
                       },
                     ),
                     kHeight20,
@@ -148,9 +93,11 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             context.pushNamed('register');
                           },
-                          child: const Text('Register',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, color: kOrange)),
+                          child: const Text(
+                            'Register',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: kOrange),
+                          ),
                         )
                       ],
                     )

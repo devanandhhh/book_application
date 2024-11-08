@@ -1,5 +1,6 @@
 class ValidationService {
-  // Validates that the name has at least 4 characters and contains only letters
+  
+  // VALIDATE NAME -- ONLY CHARACTERS
   String? validateName(String name) {
     if (name.isEmpty) {
       return 'Name cannot be empty';
@@ -11,7 +12,7 @@ class ValidationService {
     return null; // null means the name is valid
   }
 
-  // Validates that the password has at least 4 characters
+  // VALIDATE PASSWORD - CHECKING
   String? validatePassword(String password) {
     if (password.isEmpty) {
       return 'Password cannot be empty';
@@ -21,6 +22,7 @@ class ValidationService {
     return null; // null means the password is valid
   }
 
+  // VALIDATE CONFIRM PASSWORD ----
   String? validateConfirmPassword(String password, String confirmPassword) {
     if (confirmPassword.isEmpty) {
       return 'Confirm password cannot be empty';

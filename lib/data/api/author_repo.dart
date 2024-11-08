@@ -5,13 +5,16 @@ import 'package:http/http.dart' as http;
 import 'package:books_app/core/endpoints.dart';
 
 class AuthorRepoService {
+
+  // GET AUTHOR DETAILS ---
   Future<List<AuthorModel>?> getAuthorsDetails() async {
-    final url = Uri.parse("${Endpoints.baseUrl}${Endpoints.authorPath}");
+    final url = Uri.parse(
+      "${Endpoints.baseUrl}${Endpoints.authorPath}",
+    );
     final header = {
       'accept': '*/*',
     };
     try {
-      log('entered in getAuthorsDetails');
       final response = await http.get(url, headers: header);
       log('response =>${response.body}');
 
@@ -20,7 +23,9 @@ class AuthorRepoService {
         final data = jsonDecode(response.body);
 
         for (var item in data['result']) {
-          getAuthorList.add(AuthorModel.fromJson(item));
+          getAuthorList.add(
+            AuthorModel.fromJson(item),
+          );
         }
         return getAuthorList;
       } else {

@@ -22,6 +22,7 @@ class AppRouter {
           return const SplashScreen();
         },
       ),
+      // Bottom Screen Route
       GoRoute(
         name: 'bottomNav',
         path: '/bottomNav',
@@ -29,7 +30,7 @@ class AppRouter {
           return BottomNavigationScreen();
         },
       ),
-      // Define your routes here
+      // Home Screen Route
       GoRoute(
         name: 'home',
         path: '/home',
@@ -37,6 +38,7 @@ class AppRouter {
           return const HomeScreen();
         },
       ),
+      // Register Route
       GoRoute(
         name: 'register',
         path: '/register',
@@ -44,21 +46,30 @@ class AppRouter {
           return RegisterScreen();
         },
       ),
+      // Login Route
       GoRoute(
-          name: 'login',
-          path: '/login',
-          builder: (BuildContext context, GoRouterState state) {
+        name: 'login',
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state) {
           return LoginScreen();
-        },),
+        },
+      ),
+      // View Details
       GoRoute(
           name: 'viewDetails',
           path: '/viewDetails',
           pageBuilder: (context, state) {
-            final data =state.extra as Map<String,dynamic>;
+            final data = state.extra as Map<String, dynamic>;
 
-            final bookModel =data['bookModel'] as BookModel ;
-            
-            return  MaterialPage(child: ViewDetails(bookModel:bookModel,));
+            final bookModel = data['bookModel'] as BookModel;
+            final authorName = data['authorName'] as String;
+            final bgColor = data['bgColor'] as Color;
+            return MaterialPage(
+                child: ViewDetails(
+              bookModel: bookModel,
+              authorName: authorName,
+              bgColor: bgColor,
+            ));
           }),
     ],
   );
