@@ -6,6 +6,7 @@ import 'package:books_app/presentation/screens/auth_screen/widgets/custom_textfi
 import 'package:books_app/presentation/screens/auth_screen/widgets/password_field.dart';
 import 'package:books_app/presentation/screens/auth_screen/service/validation_service.dart';
 import 'package:books_app/presentation/widgets/others.dart';
+import 'package:books_app/presentation/widgets/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -75,9 +76,7 @@ class RegisterScreen extends StatelessWidget {
                       },
                       builder: (context, state) {
                         if (state is UserRegisterLoadingState) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return lottieRegister();
                         }
 
                         return AuthButtonWidget(

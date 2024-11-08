@@ -15,7 +15,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
   final AppRouter appRouter = AppRouter();
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -24,14 +24,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => PasswordVisibilityCubit()),
         BlocProvider(create: (context) => HomeFetchBloc()),
         BlocProvider(create: (context) => UserLoginBloc()),
-        BlocProvider(create: (context)=>AuthorDetailsBloc())
+        BlocProvider(create: (context) => AuthorDetailsBloc())
       ],
       child: MaterialApp.router(
-        title: 'Flutter Demo',
-
+        title: 'Book Appliacation',
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter.router,
-        //home: const SplashScreen(),
       ),
     );
   }

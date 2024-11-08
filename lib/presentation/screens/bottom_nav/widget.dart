@@ -23,7 +23,7 @@ class BottomNavigationWidget extends StatelessWidget {
           },
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.person_pin), label: 'Search'),
+            BottomNavigationBarItem(icon: Icon(Icons.person_pin), label: 'Authors'),
           ],
         );
       },

@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/others.dart';
+import '../../widgets/shimmer.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -50,23 +51,23 @@ class LoginScreen extends StatelessWidget {
                     kHeight20,
                     kHeight20,
                     BlocConsumer<UserLoginBloc, UserLoginState>(
-                      listener: (context, state) {
+                      listener: (context, state) async {
                         if (state is UserLoginSuccessState) {
+                          await Future.delayed(const Duration(seconds: 3));
+                          // ignore: use_build_context_synchronously
                           showSnackBar(context, 'SuccessFully Login ');
+                          // ignore: use_build_context_synchronously
                           context.go('/BottomNav');
                         } else if (state is UserLoginNotExistState) {
                           showSnackBar(context,
                               "Username not found. Please register or try another username.");
                         } else if (state is UserLoginFaliureState) {
-                          showSnackBar(context,
-                              "Something went wrong , Try again after sometime");
+                          showSnackBar(context, "User not Found", true);
                         }
                       },
                       builder: (context, state) {
                         if (state is UserLoginLoadingState) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return lottieRegister();
                         }
 
                         return AuthButtonWidget(
@@ -110,4 +111,6 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
+  
 }

@@ -6,13 +6,13 @@ part 'password_visibility_state.dart';
 class PasswordVisibilityCubit extends Cubit<PasswordVisibilityState> {
   PasswordVisibilityCubit() : super(PasswordVisibilityInitial(isVisible: true));
 
-   void toggleVisibility(){
+  void toggleVisibility() {
     final currentState = state as PasswordVisibilityInitial;
     emit(PasswordVisibilityInitial(isVisible: !currentState.isVisible));
   }
-  void toggleVisibility1(){
+
+  void toggleVisibility1() {
     final currentState = state as PasswordVisibilityInitial;
     emit(PasswordVisibilityInitial(isVisible: !currentState.isVisible));
   }
 }
- 

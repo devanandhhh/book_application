@@ -3,10 +3,13 @@ import 'package:books_app/data/models/author_model.dart';
 import 'package:books_app/data/shared_preference/shared_preference.dart';
 import 'package:books_app/presentation/bloc/auth_details/author_details_bloc.dart';
 import 'package:books_app/presentation/screens/bottom_nav/widget.dart';
+import 'package:books_app/presentation/widgets/others.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../widgets/shimmer.dart';
 
 class AuthorsScreen extends StatefulWidget {
   const AuthorsScreen({super.key});
@@ -32,19 +35,35 @@ class _AuthorsScreenState extends State<AuthorsScreen> {
   }
 
   Widget buildBody() {
-    return BlocBuilder<AuthorDetailsBloc, AuthorDetailsState>(
-      builder: (context, state) {
-        if (state is AuthorDetailsLoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is AuthorDetailsLoadedState) {
-          return buildAuthorList(state);
-        } else if (state is AuthorDetailsFaliureState) {
-          return const Center(
-            child: Text('No Data Available'),
-          );
+    return FutureBuilder(
+      future: Future.delayed(const Duration(seconds: 1)),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState==ConnectionState.waiting){
+          return lottieSearch();
+        }else{
+          return  BlocBuilder<AuthorDetailsBloc, AuthorDetailsState>(
+        builder: (context, state) {
+          if (state is AuthorDetailsLoadingState) {
+            return ListView.separated(
+              itemBuilder: (context, index) {
+                return buildAuthorCardShimmer();
+              },
+              itemCount: 10,
+              separatorBuilder: (context, index) => kHeight10,
+            );
+          } else if (state is AuthorDetailsLoadedState) {
+            return buildAuthorList(state);
+          } else if (state is AuthorDetailsFaliureState) {
+            return const Center(
+              child: Text('No Data Available'),
+            );
+          }
+          return kHeight10;
+        },
+      );
         }
-        return kHeight10;
       },
+     
     );
   }
 

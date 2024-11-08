@@ -52,19 +52,19 @@ class BookGridItem extends StatelessWidget {
                     const Icon(
                       Icons.star,
                       color: kOrange,
-                      size: 20,
+                      size: 15,
                     ),
                     Text(
                       '4.0',
                       style: GoogleFonts.roboto(
-                          fontSize: 15, fontWeight: FontWeight.bold),
+                          fontSize: 17, ),
                     ),
                   ],
                 ),
                 Text(
                   '₹ ${bookData.price}.00',
                   style: GoogleFonts.roboto(
-                      fontSize: 15, fontWeight: FontWeight.bold),
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 )
               ],
             ),

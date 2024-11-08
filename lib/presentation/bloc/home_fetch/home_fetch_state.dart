@@ -27,5 +27,5 @@ class HomeFetchFaliureState extends HomeFetchState {
   @override
   List<Object> get props => [error];
 }
-class HomeFetchNoResultsState extends HomeFetchState {}
 
+class HomeFetchNoResultsState extends HomeFetchState {}

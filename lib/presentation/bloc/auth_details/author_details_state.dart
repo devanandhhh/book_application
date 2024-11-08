@@ -12,9 +12,9 @@ class AuthorDetailsLoadedState extends AuthorDetailsState {
 
   AuthorDetailsLoadedState({required this.getAuthorList});
 }
-class AuthorDetailsFaliureState extends AuthorDetailsState{
+
+class AuthorDetailsFaliureState extends AuthorDetailsState {
   final String error;
 
   AuthorDetailsFaliureState({required this.error});
-  
 }

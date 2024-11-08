@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/home_fetch/home_fetch_bloc.dart';
+import '../../widgets/others.dart';
+import '../../widgets/shimmer.dart';
 import 'widgets/book_grid_item.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Column(
-          children: [kHeight10, buildSearchBar(context), kHeight10, buildBookGrid()],
+          children: [
+            kHeight10,
+            buildSearchBar(context),
+            kHeight10,
+            buildBookGrid()
+          ],
         ),
       ),
     );
@@ -41,26 +48,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Flexible buildBookGrid() {
     return Flexible(
-      child: BlocBuilder<HomeFetchBloc, HomeFetchState>(
-        builder: (context, state) {
-          if (state is HomeFetchLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is HomeFetchNoResultsState) {
-            return const Center(
-              child: Text(
-                'No results found',
-                style: TextStyle(fontSize: 18),
-              ),
-            );
-          } else if (state is HomeFetchLoadedState) {
-            log("Loaded State with ${state.bookList.length} items"); // Debugging line
-            return buildBookGridView(state);
-          } else if (state is HomeFetchFaliureState) {
-            return const Text('Try Again');
-          }
-          return kHeight10;
-        },
-      ),
+      child: FutureBuilder(
+          future: Future.delayed(const Duration(seconds: 3)),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return lottieSearch();
+            } else {
+              return BlocBuilder<HomeFetchBloc, HomeFetchState>(
+                builder: (context, state) {
+                  if (state is HomeFetchLoadingState) {
+                    return GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 4.0,
+                              mainAxisSpacing: 4.0,
+                              childAspectRatio: .62),
+                      itemBuilder: (context, index) {
+                        return const BookGridItemShimmer();
+                      },
+                      itemCount: 10,
+                    );
+                  } else if (state is HomeFetchNoResultsState) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          lottieSearch(),
+                          const Text(
+                            'No results found',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (state is HomeFetchLoadedState) {
+                    log("Loaded State with ${state.bookList.length} items"); // Debugging line
+                    return buildBookGridView(state);
+                  } else if (state is HomeFetchFaliureState) {
+                    return const Text('Try Again');
+                  }
+                  return kHeight10;
+                },
+              );
+            }
+          }),
     );
   }
 

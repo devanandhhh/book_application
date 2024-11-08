@@ -37,6 +37,8 @@ class UserLoginBloc extends Bloc<UserLoginEvent, UserLoginState> {
         emit(UserLoginNotExistState(message: message));
       } else if (response != null && response.statusCode == 400) {
         emit(UserLoginFaliureState(error: '400 found'));
+      } else if (response != null && response.statusCode == 500) {
+        emit(UserLoginFaliureState(error: '500 found'));
       }
     } catch (e) {
       log('Error $e');

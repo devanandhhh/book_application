@@ -1,6 +1,7 @@
 import 'package:books_app/core/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 void showSnackBar(BuildContext context, String title, [bool istrue = false]) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -40,5 +41,12 @@ Container submitButton(String? text) {
       style: const TextStyle(
           color: Colors.white, fontWeight: FontWeight.bold, fontSize: 19),
     )),
+  );
+}
+
+Center lottieSearch() {
+  return Center(
+    child: Lottie.network(
+        'https://lottie.host/7355749b-f541-495e-89ec-b892ddd9fcdb/eTedSRfErD.json'),
   );
 }
