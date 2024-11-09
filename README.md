@@ -28,10 +28,11 @@ This project uses the following dependencies:
 - **shared_preferences**: Used for saving user JWT tokens.
 - **http**: To handle API requests.
 - **flutter_lottie**: For adding Lottie animations.
-- **flutter_rating_bar**:For adding the rating .
-- **go_router**:For route management.
-- **google_fonts**:For gettin beauitiful fonts
-- **internet_connection_checker** : for checking the network
+- **flutter_rating_bar**: For adding the rating .
+- **go_router**: For route management.
+- **google_fonts**: For gettin beauitiful fonts
+- **lottie**: For animation 
+- **internet_connection_checker** : For checking the network
 
 **Network Connection Check**
 To improve user experience, the app performs a check for an internet connection before performing key actions like login, registration, and fetching authors' data.
