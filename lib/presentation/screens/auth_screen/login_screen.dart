@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../data/network_checker/network_checker.dart';
 import '../../widgets/others.dart';
 import '../../widgets/shimmer.dart';
 
@@ -18,6 +19,7 @@ class LoginScreen extends StatelessWidget {
   final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final connectivityService = ConnectivityService();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -53,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                     BlocConsumer<UserLoginBloc, UserLoginState>(
                       listener: (context, state) async {
                         if (state is UserLoginSuccessState) {
-                          await Future.delayed(const Duration(seconds: 3));
+                          await Future.delayed(const Duration(seconds: 2));
                           // ignore: use_build_context_synchronously
                           showSnackBar(context, 'SuccessFully Login ');
                           // ignore: use_build_context_synchronously
@@ -72,8 +74,10 @@ class LoginScreen extends StatelessWidget {
 
                         return AuthButtonWidget(
                           text: 'Login',
-                          onTap: () {
-                            if (formKey.currentState!.validate()) {
+                          onTap: () async {
+                            if (!(connectivityService.isConnected.value)) {
+                              await showNetworkErrorDialog(context);
+                            } else if (formKey.currentState!.validate()) {
                               context.read<UserLoginBloc>().add(
                                     UserLoginButtonClickEvent(
                                       name: nameController.text,
@@ -111,6 +115,4 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-
-  
 }

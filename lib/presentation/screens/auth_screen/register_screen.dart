@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../data/network_checker/network_checker.dart';
+
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
@@ -20,6 +22,8 @@ class RegisterScreen extends StatelessWidget {
   final confirmController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final connectivityService = ConnectivityService();
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -81,8 +85,11 @@ class RegisterScreen extends StatelessWidget {
 
                         return AuthButtonWidget(
                           text: 'Register',
-                          onTap: () {
-                            if (formKey.currentState!.validate()) {
+                          onTap: () async {
+                            if (!(connectivityService.isConnected.value)) {
+                              // Show alert dialog if no network connection
+                              await showNetworkErrorDialog(context);
+                            } else if (formKey.currentState!.validate()) {
                               context.read<UserRegisterBloc>().add(
                                     RegisterButtonClickEvent(
                                       name: nameController.text,

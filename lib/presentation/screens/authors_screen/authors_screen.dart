@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../data/network_checker/network_checker.dart';
 import '../../widgets/shimmer.dart';
 
 class AuthorsScreen extends StatefulWidget {
@@ -19,10 +20,32 @@ class AuthorsScreen extends StatefulWidget {
 }
 
 class _AuthorsScreenState extends State<AuthorsScreen> {
+  late ConnectivityService _connectivityService;
+  bool _hasCheckedConnection = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<AuthorDetailsBloc>().add(AuthorDetailsGetEvent());
+    // context.read<AuthorDetailsBloc>().add(AuthorDetailsGetEvent());
+    if (!_hasCheckedConnection) {
+      _hasCheckedConnection = true;
+      _connectivityService = ConnectivityService();
+
+      // Check initial connection and setup listener for connectivity changes
+      _connectivityService.checkInitialConnection().then((_) {
+        if (!_connectivityService.isConnected.value) {
+          showNetworkErrorDialog(context); // Show error if not connected
+        } else {
+          context.read<AuthorDetailsBloc>().add(AuthorDetailsGetEvent());
+        }
+      });
+
+      _connectivityService.isConnected.addListener(() {
+        if (!_connectivityService.isConnected.value) {
+          showNetworkErrorDialog(context);
+        }
+      });
+    }
   }
 
   @override
@@ -38,32 +61,31 @@ class _AuthorsScreenState extends State<AuthorsScreen> {
     return FutureBuilder(
       future: Future.delayed(const Duration(seconds: 1)),
       builder: (context, snapshot) {
-        if(snapshot.connectionState==ConnectionState.waiting){
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return lottieSearch();
-        }else{
-          return  BlocBuilder<AuthorDetailsBloc, AuthorDetailsState>(
-        builder: (context, state) {
-          if (state is AuthorDetailsLoadingState) {
-            return ListView.separated(
-              itemBuilder: (context, index) {
-                return buildAuthorCardShimmer();
-              },
-              itemCount: 10,
-              separatorBuilder: (context, index) => kHeight10,
-            );
-          } else if (state is AuthorDetailsLoadedState) {
-            return buildAuthorList(state);
-          } else if (state is AuthorDetailsFaliureState) {
-            return const Center(
-              child: Text('No Data Available'),
-            );
-          }
-          return kHeight10;
-        },
-      );
+        } else {
+          return BlocBuilder<AuthorDetailsBloc, AuthorDetailsState>(
+            builder: (context, state) {
+              if (state is AuthorDetailsLoadingState) {
+                return ListView.separated(
+                  itemBuilder: (context, index) {
+                    return buildAuthorCardShimmer();
+                  },
+                  itemCount: 10,
+                  separatorBuilder: (context, index) => kHeight10,
+                );
+              } else if (state is AuthorDetailsLoadedState) {
+                return buildAuthorList(state);
+              } else if (state is AuthorDetailsFaliureState) {
+                return const Center(
+                  child: Text('No Data Available'),
+                );
+              }
+              return kHeight10;
+            },
+          );
         }
       },
-     
     );
   }
 

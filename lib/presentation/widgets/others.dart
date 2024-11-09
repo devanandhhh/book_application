@@ -50,3 +50,28 @@ Center lottieSearch() {
         'https://lottie.host/7355749b-f541-495e-89ec-b892ddd9fcdb/eTedSRfErD.json'),
   );
 }
+// dialog_utils.dart
+
+Future<void> showNetworkErrorDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(
+        'Network Error',
+        style: GoogleFonts.roboto(
+            fontSize: 30, color: Colors.red, fontWeight: FontWeight.bold),
+      ),
+      content: const Text(
+          'No internet connection. Please check your network and try again.'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
+
