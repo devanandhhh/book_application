@@ -114,12 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
         return InkWell(
           onTap: () {
             final color = colors[index % colors.length];
+            final value =state.bookList[index].ratings.first;
             context.pushNamed('viewDetails', extra: {
-              'bookModel': state.bookList[index],
+              'bookModel': state.bookList[index], 
               'authorName': state.authorName[index].isEmpty
                   ? 'Unknown'
                   : state.authorName[index],
-              'bgColor': color
+              'bgColor': color,
+              'rating':value.toString()
+              // 'bookId':state.bookList
             });
           },
           child: BookGridItem(bookData: bookData, authorData: authorData),

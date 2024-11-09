@@ -64,8 +64,10 @@ class AppRouter {
             final bookModel = data['bookModel'] as BookModel;
             final authorName = data['authorName'] as String;
             final bgColor = data['bgColor'] as Color;
+           final rating =data['rating'] as String;
             return MaterialPage(
                 child: ViewDetails(
+                 rating: rating,
               bookModel: bookModel,
               authorName: authorName,
               bgColor: bgColor,
@@ -74,3 +76,4 @@ class AppRouter {
     ],
   );
 }
+ 

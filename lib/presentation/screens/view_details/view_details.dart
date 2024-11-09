@@ -6,15 +6,18 @@ import 'package:intl/intl.dart';
 import 'widget/book_cover_section.dart';
 import 'widget/book_info_session.dart';
 
+// ignore: must_be_immutable
 class ViewDetails extends StatelessWidget {
   final BookModel bookModel;
   final String? authorName;
   final Color? bgColor;
-  const ViewDetails({
+   String? rating;
+   ViewDetails({
     super.key,
     required this.bookModel,
     this.authorName,
     this.bgColor,
+    this.rating
   });
 
   AppBar buildAppbar(BuildContext context) {
@@ -28,6 +31,7 @@ class ViewDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? ratingw=rating;
     return Scaffold(
       appBar: buildAppbar(context),
       body: SingleChildScrollView(
@@ -35,7 +39,7 @@ class ViewDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BookCoverSection(bgColor: bgColor, bookModel: bookModel),
-            BookInfoSection(bookModel: bookModel, authorName: authorName),
+            BookInfoSection(bookModel: bookModel, authorName: authorName,rating: ratingw,),
           ],
         ),
       ),

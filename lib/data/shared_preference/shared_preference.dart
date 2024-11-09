@@ -23,4 +23,9 @@ class TokenService {
     await prefs.remove('jwt_token');
     log('Token cleared successfully');
   }
+   /// Retrieves the stored JWT token
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('jwt_token');
+  }
 }

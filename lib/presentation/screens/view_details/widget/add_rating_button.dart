@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/colors.dart';
 
 class AddRatingButton extends StatelessWidget {
+  final String? bookId;
   const AddRatingButton({
-    super.key,
+    super.key,  this.bookId,
   });
 
   @override
@@ -16,7 +17,7 @@ class AddRatingButton extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return const AddRatingBottomSheet();
+            return  AddRatingBottomSheet(bookId:bookId,);
           },
         );
       },

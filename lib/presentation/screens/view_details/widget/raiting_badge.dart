@@ -6,12 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/colors.dart';
 
 class RatingBadge extends StatelessWidget {
+  final dynamic rating;
   const RatingBadge({
-    super.key,
+    super.key,this.rating
   });
 
   @override
   Widget build(BuildContext context) {
+    print('rating is -> $rating');
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: kGrey600!),
@@ -28,8 +30,7 @@ class RatingBadge extends StatelessWidget {
             size: 14,
             color: kOrange,
           ),
-          Text(
-            '4.0',
+          Text(rating!=null?"$rating:0":'0.0',
             style:
                 GoogleFonts.roboto(fontSize: 17, fontWeight: FontWeight.bold),
           )

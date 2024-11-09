@@ -7,7 +7,7 @@ import '../../../../core/colors.dart';
 import '../../../../data/models/book_model.dart';
 import '../../authors_screen/authors_screen.dart';
 
-class BookGridItem extends StatelessWidget {
+class BookGridItem extends StatefulWidget {
   const BookGridItem({
     super.key,
     required this.bookData,
@@ -17,6 +17,18 @@ class BookGridItem extends StatelessWidget {
   final BookModel bookData;
   final String authorData;
 
+  @override
+  State<BookGridItem> createState() => _BookGridItemState();
+}
+
+class _BookGridItemState extends State<BookGridItem> {
+  @override
+  void didChangeDependencies() {
+   rating =getFirstRating(widget.bookData.ratings).toString();
+    super.didChangeDependencies();
+
+  }
+  String rating=0.toString();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +45,7 @@ class BookGridItem extends StatelessWidget {
               
               height: MediaQuery.of(context).size.height * 0.24,
               width: MediaQuery.of(context).size.width,
-              child: Image.network(bookData.coverPictureURL),
+              child: Image.network(widget.bookData.coverPictureURL),
             ),
           ),
           Padding(
@@ -42,11 +54,11 @@ class BookGridItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  shortenString(bookData.title, 19),
+                  shortenString(widget.bookData.title, 19),
                   style: GoogleFonts.roboto(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                Text(authorData),
+                Text(widget.authorData),
                 Row(
                   children: [
                     const Icon(
@@ -55,14 +67,16 @@ class BookGridItem extends StatelessWidget {
                       size: 15,
                     ),
                     Text(
-                      '4.0',
+                      // getFirstRating(widget.bookData.ratings).toString(),
+                      //'4.0',
+                      rating,
                       style: GoogleFonts.roboto(
                           fontSize: 17, ),
                     ),
                   ],
                 ),
                 Text(
-                  '₹ ${bookData.price}.00',
+                  '₹ ${widget.bookData.price}.00',
                   style: GoogleFonts.roboto(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 )
@@ -73,4 +87,10 @@ class BookGridItem extends StatelessWidget {
       ),
     );
   }
+}
+int getFirstRating(List<dynamic> ratings) {
+  if (ratings.isNotEmpty) {
+    return ratings[0]['rating'] ?? 0;
+  }
+  return 0; // Return 0 if no ratings are available
 }

@@ -28,7 +28,7 @@ class BottomPriceAndRating extends StatelessWidget {
               style:
                   GoogleFonts.inter(fontSize: 21, fontWeight: FontWeight.bold),
             ),
-            const AddRatingButton()
+             AddRatingButton(bookId: bookModel.id,)
           ],
         ),
       ),

@@ -70,4 +70,35 @@ class BooksRepoService {
       return 'user Unknown';
     }
   }
+
+  Future<int?> addStarRating(String bookId, int rating, String accessToken) async {
+    // Construct the URL with the specific book ID
+    final url = Uri.parse('${Endpoints.baseUrl}${Endpoints.fetchBooks}/$bookId?/ratings:add');
+
+    try {
+      // Make the PATCH request
+      final response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+          'accept': '*/*'
+        },
+        body: jsonEncode({'rating': rating,}),
+      );
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        print('Rating added successfully.');
+        return response.statusCode;
+      } else {
+        print('Failed to add rating: ${response.statusCode}');
+        print('Response: ${response.body}');
+        return response.statusCode;
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+      return 0;
+    }
+  }
 }

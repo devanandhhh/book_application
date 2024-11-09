@@ -1,17 +1,35 @@
 import 'dart:developer';
 
+import 'package:books_app/data/api/books_repo.dart';
+import 'package:books_app/data/shared_preference/shared_preference.dart';
+import 'package:books_app/presentation/bloc/bloc/rating_option_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/colors.dart';
 import '../../../widgets/others.dart';
 
-class AddRatingBottomSheet extends StatelessWidget {
+class AddRatingBottomSheet extends StatefulWidget {
+  final String? bookId;
   const AddRatingBottomSheet({
-    super.key,
+    super.key,this.bookId
   });
 
+  @override
+  State<AddRatingBottomSheet> createState() => _AddRatingBottomSheetState();
+}
+
+class _AddRatingBottomSheetState extends State<AddRatingBottomSheet> {
+  int currentRating = 3;
+  String? userToken ;
+  @override
+  void didChangeDependencies()async {
+    super.didChangeDependencies();
+   userToken =await TokenService().getToken();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,6 +71,9 @@ class AddRatingBottomSheet extends StatelessWidget {
               color: Colors.amber,
             ),
             onRatingUpdate: (rating) {
+               setState(() {
+                currentRating = rating.floor();  // Update the rating variable
+              });
               log('rating:$rating');
             },
           ),
@@ -61,9 +82,19 @@ class AddRatingBottomSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: InkWell(
-                onTap: () {
+                onTap: ()async {
+
+                  int? statuscode =
+                  await BooksRepoService().addStarRating(widget.bookId!, currentRating, userToken!);
+                  if(statuscode==200){
+                    print('success');
+                    context.read<RatingOptionBloc>().add(RatingSubmitEvent(bookId: widget.bookId!, rating: currentRating, userToken: userToken));
+                  }else{
+                    print('status code is $statuscode');
+                  }
                   Navigator.pop(context);
-                  showSnackBar(context, 'SuccessFully Rated');
+                  //showSnackBar(context, 'SuccessFully Rated');
+
                 },
                 child: submitButton("Submit")),
           )
