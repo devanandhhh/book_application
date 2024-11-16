@@ -20,6 +20,9 @@ A Flutter application for managing books and authors, featuring user authenticat
 ### 4. **Authors Screen**
 - **List of Authors**: Displays all available authors and their details, including a biography, books written, and ratings for each book.
 
+## Hosted in GitHub 
+Link here - https://devanandhhh.github.io/book_app.io/
+
 
 ## Dependencies
 
