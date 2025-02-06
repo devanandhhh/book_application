@@ -8,10 +8,14 @@ import 'presentation/bloc/auth_details/author_details_bloc.dart';
 import 'presentation/bloc/bloc/rating_option_bloc.dart';
 import 'presentation/bloc/password_visibility/password_visibility_cubit.dart';
 import 'presentation/bloc/user_register/user_register_bloc.dart';
+import 'package:device_preview/device_preview.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(
+      DevicePreview(
+        enabled: true,
+        builder: (context) => MyApp(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -26,12 +30,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => HomeFetchBloc()),
         BlocProvider(create: (context) => UserLoginBloc()),
         BlocProvider(create: (context) => AuthorDetailsBloc()),
-        BlocProvider(create: (context)=>RatingOptionBloc())
+        BlocProvider(create: (context) => RatingOptionBloc())
       ],
       child: MaterialApp.router(
         title: 'Book Appliacation',
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter.router,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
       ),
     );
   }
